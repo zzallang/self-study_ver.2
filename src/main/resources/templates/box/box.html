@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>제목없음</title>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+	<h1>SENOK</h1>
+	<div>
+		상자만들기
+		<form id="createBox">
+			<div>
+				X : <input type="number" name="x">
+			</div>
+			<div>
+				Y : <input type="number" name="y">
+			</div>
+			<div>
+				가로 : <input type="number" name="width">
+			</div>
+			<div>
+				세로 : <input type="number" name="height">
+			</div>
+			<div>
+				Color : <input type="text" name="color">
+			</div>
+			<button id="createBtn">확인</button>
+		</form>
+	</div>
+	<div>
+    불러오기
+    <form id="list" action="select-box">
+      <div>
+        번호 : <input type="number" id="seletNo" name="no">
+      </div>
+      <button type="button" id="selectBtn">확인</button>
+  </form>
+	</div>
+  <div>
+    X : <input type="number" name="x">
+  </div>
+  <div>
+    Y : <input type="number" name="y">
+  </div>
+  <div>
+    가로 : <input type="number" name="width">
+  </div>
+  <div>
+    세로 : <input type="number" name="height">
+  </div>
+  <div>
+    Color : <input type="text" name="color">
+  </div>
+	
+</body>
+<script>
+  $('#selectBtn').on('click', function() {
+	  var selected = $('#seletNo').val();
+	  console.log(selected);
+  });
+</script>
+</html>
