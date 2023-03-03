@@ -2,7 +2,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>계산기3</title>
+<title>계산기3-1</title>
+<script src="jquery-3.6.3.min.js" type="text/javascript"></script>
+<style>
+	table {
+		border-collapse: collapse;
+	}
+	
+	td {
+		padding: 5px 10px;
+		text-align: center;
+	}
+	
+	input {
+		text-align: right;
+		border: none;
+	}
+	
+	input:focus {
+		outline: none;
+	}
+</style>
 </head>
 <body>
 	<table border="1">
@@ -41,21 +61,21 @@
 		</tr>
 	</table>
 	<script>
-		function add(char) {
-        var display = document.getElementById('display');
-        display.value = display.value + char;
-      }
-      
-      function calculate() {
-        var display = document.getElementById('display');
-        var result = eval(display.value);
-        document.getElementById('result').value = result;
-      }
-      
-      function reset() {
-        document.getElementById('display').value = "";
-        document.getElementById('result').value = "";
-      }
+    function add(char) {
+      var display = document.getElementById('display');
+      display.value = display.value + char;
+    }
+    
+    function calculate() {
+      var display = document.getElementById('display');
+      var result = eval(display.value);
+      document.getElementById('result').value = result;
+    }
+    
+    function reset() {
+      document.getElementById('display').value = "";
+      document.getElementById('result').value = "";
+    }
     </script>
 </body>
 </html>

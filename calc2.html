@@ -24,29 +24,34 @@
 
 </script>
 </head>
+
 <body>
-	<div class="calculator">
-		<input type="text" id="resultFld" disabled>
-    <br>
-    <button type="button" id="num7" onclick="btn_click(7)">7</button>
-    <button type="button" id="num8" onclick="btn_click(8)">8</button>
-    <button type="button" id="num9" onclick="btn_click(9)">9</button>
-    <button type="button" id="" onclick="cal('/')">/</button>
-    <br>
-    <button type="button" onclick="btn_click(4)">4</button>
-    <button type="button" onclick="btn_click(5)">5</button>
-    <button type="button" onclick="btn_click(6)">6</button>
-    <button type="button" onclick="cal('*')">*</button>
-    <br>
-    <button type="button" onclick="btn_click(1)">1</button>
-    <button type="button" onclick="btn_click(2)">2</button>
-    <button type="button" onclick="btn_click(3)">3</button>
-    <button type="button" onclick="cal('-')">-</button>
-    <br>
-    <button type="button" onclick="btn_click(0)">0</button>
-    <button type="button" onclick="cal('+')">+</button>
-		<button type="button" onclick="compute()">=</button>
-		<button type="button" onclick="ac()">C</button>
-	</div>
+  <input readonly id="operator">
+  <input readonly type="number" id="result">
+  <div class="row">
+    <button id="num-7">7</button>
+    <button id="num-8">8</button>
+    <button id="num-9">9</button>
+    <button id="plus">+</button>
+  </div>
+  <div class="row">
+    <button id="num-4">4</button>
+    <button id="num-5">5</button>
+    <button id="num-6">6</button>
+    <button id="minus">-</button>
+  </div>
+  <div class="row">
+    <button id="num-1">1</button>
+    <button id="num-2">2</button>
+    <button id="num-3">3</button>
+    <button id="divide">/</button>
+  </div>
+  <div class="row">
+    <button id="clear">C</button>
+    <button id="num-0">0</button>
+    <button id="calculate">=</button>
+    <button id="multiply">*</button>
+  </div>
 </body>
+
 </html>
