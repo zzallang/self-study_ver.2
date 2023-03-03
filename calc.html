@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>계산기1</title>
+<script src="jquery-3.6.3.min.js" type="text/javascript"></script>
+<script>
+	
+  var num =0 ;
+  var symbol ;
+
+  function btn_click (a) {
+      resultFld.value += a;
+  }
+
+  function cal(b) {
+      var firstNum = (document.getElementById("resultFld").value);
+      num = firstNum;
+      symbol = b ;
+      return document.getElementById("resultFld").value = "";
+  }
+
+  function compute () {
+      var secNum = parseFloat(document.getElementById("resultFld").value);
+      var result ;
+      switch (symbol) {
+          case '+' : result = Number(num) + Number(secNum) ; 
+          document.getElementById("resultFld").value = result; 
+          break;
+          case '-' : result = Number(num) - Number(secNum) ; 
+          document.getElementById("resultFld").value = result;
+          break;
+          case '*' : result = Number(num) * Number(secNum) ; 
+          document.getElementById("resultFld").value = result;
+          break;
+          case '/' : result = Number(num) / Number(secNum) ; 
+          document.getElementById("resultFld").value = result;
+          break;
+      }
+  }
+
+  function ac() {
+      document.getElementById("resultFld").value = "";
+      num = 0;
+  }
+    
+</script>
+</head>
+<body>
+	<div class="calculator">
+		<!-- <input type="text" id="inval" disabled> -->
+		<input type="text" id="resultFld" disabled>
+    <br>
+    <input type="button" value="7" onclick="btn_click(7)">
+    <input type="button" value="8" onclick="btn_click(8)">
+    <input type="button" value="9" onclick="btn_click(9)">
+    <input type="button" value="/" onclick="cal('/')">
+    <br>
+    <input type="button" value="4" onclick="btn_click(4)">
+    <input type="button" value="5" onclick="btn_click(5)">
+    <input type="button" value="6" onclick="btn_click(6)">
+    <input type="button" value="*" onclick="cal('*')">
+    <br>
+    <input type="button" value="1" onclick="btn_click(1)">
+    <input type="button" value="2" onclick="btn_click(2)">
+    <input type="button" value="3" onclick="btn_click(3)">
+    <input type="button" value="-" onclick="cal('-')">
+    <br>
+    <input type="button" value="0" onclick="btn_click(0)">
+    <input type="button" value="+" onclick="cal('+')">
+		<input type="button" value="=" onclick="compute()">
+		<input type="button" value="C" onclick="ac()">
+	</div>
+</body>
+</html>
