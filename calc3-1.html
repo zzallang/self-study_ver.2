@@ -40,7 +40,7 @@
       const resultElement = document.getElementById('result');
       
       function appendNumber(number) {
-        if (resultElement.value === '0') {
+        if (resultElement.value === '') {
           resultElement.value = number;
         } else {
           resultElement.value += number;
@@ -50,13 +50,13 @@
       function setOperator(operator) {
         currentOperator = operator;
         firstOperand = Number(resultElement.value);
-        resultElement.value = '0';
+        resultElement.value = '';
       }
       
       function clearResult() {
         currentOperator = null;
         firstOperand = null;
-        resultElement.value = '0';
+        resultElement.value = '';
       }
       
       function calculate() {
