@@ -50,8 +50,8 @@
 <body>
 	<div id="container">
 		<div>
-			<input type="text" id="result" readonly> <br> 
-			<input type="text" id="op" readonly>
+			<input type="text" id="result" readonly> <br> <input
+				type="text" id="op" readonly>
 		</div>
 		<div class="row">
 			<button onclick="calcBtn('7')">7</button>
@@ -80,93 +80,83 @@
 		</div>
 	</div>
 	<script>
+	var calcArr = [];
+	var opInput = document.getElementById('op');
+
 	function calcBtn(value) {
-		  const calcArr = [];
+	  const resultInput = document.getElementById('result');
 
-		  const addValue = (val) => {
-		    if (val === '.' && calcArr.includes('.')) {
-		      return;
-		    } else if (val === '.') {
-		      if (calcArr.length === 0) calcArr.push('0');
-		    }
-		    calcArr.push(val);
-		  };
+	  if (!isNaN(value) || value === '.') { // 숫자나 소수점일 경우
+	    if (value === '.') {
+	      // 이미 소수점이 존재하는 경우, 소수점을 더 이상 입력하지 않음
+	      if (calcArr.includes('.')) return;
+	      // 소수점이 처음 입력되는 경우, 0을 추가해서 0.으로 만듦
+	      if (calcArr.length === 0) calcArr.push('0');
+	    }
+	    calcArr.push(value); // 배열에 value 값으로 넘어온 숫자 또는 소수점 추가
+	  } else if (value === '=') {
+	    calcArr = [calculate()]; // 계산 결과 저장 (연속된 계산을 위함)
+	    opInput.value = calcArr[0];
+	  } else if (value === 'C') {
+	    calcArr = [];
+	    resultInput.value = '';
+	    opInput.value = '';
+	  } else if (isNaN(calcArr[calcArr.length-1])) { // 이전에 입력된 값이 연산자일 경우
+	    calcArr[calcArr.length-1] = value; // 배열 마지막 요소를 현재 연산자로 교체
+	  } else { // 이전에 입력된 값이 숫자일 경우
+	    calcArr = [calculate(), value]; // 계산 결과와 현재 연산자를 배열에 저장
+	  }
+	  resultInput.value = calcArr.join(''); // 공백 추가
+	}
 
-		  const clearCalculation = () => {
-		    calcArr.length = 0;
-		    document.getElementById('result').value = '';
-		    document.getElementById('op').value = '';
-		  };
+	function calculate() {
+	  const operators = ['+', '-', '*', '/'];
+	  const operatorStack = [];
+	  const numberStack = [];
+	  let numStr = '';
 
-		  const updateDisplay = () => {
-		    document.getElementById('result').value = calcArr.join('');
-		  };
+	  calcArr.forEach(item => {
+	    if (operators.includes(item)) {
+	      operatorStack.push(item);
+	      const num = Number(numStr);
+	      numberStack.push(num);
+	      numStr = '';
+	    } else {
+	      // 숫자나 소수점일 경우 numStr에 추가
+	      numStr += item;
+	    }
+	  });
 
-		  const handleOperator = (val) => {
-		    if (isNaN(calcArr[calcArr.length-1])) {
-		      calcArr[calcArr.length-1] = val;
-		    } else {
-		      calcArr.push(val);
-		    }
-		  };
+	  // 마지막 숫자를 numberStack에 push
+	  const lastNum = Number(numStr);
+	  numberStack.push(lastNum);
 
-		  const calculate = () => {
-		    const operators = ['+', '-', '*', '/'];
-		    const operatorStack = [];
-		    const numberStack = [];
-		    let numStr = '';
+	  // 연산 수행
+	  while (operatorStack.length > 0) {
+	    const operator = operatorStack.pop();
+	    const num2 = numberStack.pop();
+	    const num1 = numberStack.pop();
 
-		    calcArr.forEach(item => {
-		      if (operators.includes(item)) {
-		        operatorStack.push(item);
-		        const num = Number(numStr);
-		        numberStack.push(num);
-		        numStr = '';
-		      } else {
-		        numStr += item;
-		      }
-		    });
+	    let result;
+	    switch(operator) {
+	      case '+':
+	        result = num1 + num2;
+	        break;
+	      case '-':
+	        result = num1 - num2;
+	        break;
+	      case '*':
+	        result = num1 * num2;
+	        break;
+	      case '/':
+	        result = num1 / num2;
+	        break;
+	    }
+	    numberStack.push(result);
+	  }
 
-		    const lastNum = Number(numStr);
-		    numberStack.push(lastNum);
-
-		    while (operatorStack.length > 0) {
-		      const operator = operatorStack.pop();
-		      const num2 = numberStack.pop();
-		      const num1 = numberStack.pop();
-
-		      let result;
-		      if (operator === '+') {
-		        result = num1 + num2;
-		      } else if (operator === '-') {
-		        result = num1 - num2;
-		      } else if (operator === '*') {
-		        result = num1 * num2;
-		      } else if (operator === '/') {
-		        result = num1 / num2;
-		      }
-		      numberStack.push(result);
-		    }
-
-		    return numberStack[0];
-		  };
-
-		  if (!isNaN(value) || value === '.') {
-		    addValue(value);
-		  } else if (value === '=') {
-		    const result = calculate();
-		    calcArr.length = 0;
-		    calcArr.push(result);
-		    document.getElementById('op').value = result;
-		  } else if (value === 'C') {
-		    clearCalculation();
-		  } else {
-		    handleOperator(value);
-		  }
-
-		  updateDisplay();
-		}
-
+	  return numberStack.pop();
+	}
 	</script>
 </body>
 </html>
