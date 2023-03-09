@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Button Calculator</title>
+<style>
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+ 
+#container > div {
+  border: 3px solid gray;
+}
+ 
+#operator{
+  width: 400px;
+  height: 80px;
+  font-size: 30px;
+  text-align: right;
+  padding-right: 8px;
+  
+}
+#result {
+  width: 400px;
+  height: 80px;
+  font-size: 60px;
+  font-weight: bold;
+  text-align: right;
+  padding-right: 8px;
+}
+ 
+.row {
+  display: flex;
+  flex-direction: row;
+}
+ 
+.row button {
+  width: 100px;
+  height: 80px;
+  font-size: 20px;
+  padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div id="container">
+		<div>
+			<input type="text" id="result" readonly>
+		</div>
+		<div class="row">
+			<button onclick="calcBtn('7')">7</button>
+			<button onclick="calcBtn('8')">8</button>
+			<button onclick="calcBtn('9')">9</button>
+			<button onclick="calcBtn('/')">/</button>
+		</div>
+		<div class="row">
+			<button onclick="calcBtn('4')">4</button>
+			<button onclick="calcBtn('5')">5</button>
+			<button onclick="calcBtn('6')">6</button>
+			<button onclick="calcBtn('*')">*</button>
+		</div>
+		<div class="row">
+			<button onclick="calcBtn('1')">1</button>
+			<button onclick="calcBtn('2')">2</button>
+			<button onclick="calcBtn('3')">3</button>
+			<button onclick="calcBtn('-')">-</button>
+		</div>
+		<div class="row" style="margin-left:100px;">
+			<button onclick="calcBtn('.')">.</button>
+			<button onclick="calcBtn('0')">0</button>
+			<button onclick="calcBtn('C')">C</button>
+			<button onclick="calcBtn('+')">+</button>
+			<button onclick="calcBtn('=')">=</button>
+		</div>
+	</div>
+	<script>
+	const result = document.getElementById('result');
+	let calcArr = [];
+
+	function calcBtn(value) {
+	  if (!isNaN(value) || value === '.') { // 숫자나 소수점일 경우
+	    calcArr.push(value); // 배열에 value 값으로 넘어온 숫자 추가
+	    console.log('calcArr(숫자나 소수점)', calcArr);
+	  } else {
+		  if (value === '=') {
+			  const resultValue = calculate(); // 연산 수행 후 저장
+			  result.value = resultValue;
+	      console.log('result.value = ',result.value);
+			  calcArr = [resultValue]; // 계산 결과 저장 (연속된 계산을 위함)
+			  console.log('calcArr = ', calcArr);
+	    } else if (value === 'C') {
+	      calcArr = [];
+	      result.value = '';
+	    } else {
+	      // 연산자일 경우
+	      calcArr.push(value);
+	      console.log('calcArr(연산자)', calcArr);
+	    }
+	  }
+	  result.value = calcArr.join(''); // 공백 추가
+	}
+
+	function calculate() {
+	  const operators = ['+', '-', '*', '/'];
+	  const operatorStack = [];
+	  const numberStack = [];
+
+	  let numStr = '';
+    console.log('numStr1 = ', numStr);
+
+	  // calcArr 배열을 하나씩 처리
+	  calcArr.forEach(item => {
+      if (operators.includes(item)) {
+        console.log('numStr2 = ', numStr);
+	      // 연산자일 경우 operatorStack에 push
+	      operatorStack.push(item);
+
+	      // numStr에 저장된 숫자를 numberStack에 push
+	      const num = Number(numStr);
+        console.log('numStr3 = ', numStr);
+        console.log('num = ', num);
+	      numberStack.push(num);
+	      numStr = '';
+	    } else {
+	      // 숫자나 소수점일 경우 numStr에 더해짐
+	      numStr += item;
+	    }
+	  });
+
+	  // 마지막 숫자를 numberStack에 push
+	  const lastNum = Number(numStr);
+	  numberStack.push(lastNum);
+
+	  // 연산 수행
+	  while (operatorStack.length > 0) {
+	    const operator = operatorStack.pop();
+	    const num2 = numberStack.pop();
+	    const num1 = numberStack.pop();
+
+	    // operator에 따라 계산 수행
+	    let result;
+	    if (operator == '+') {
+	        result = num1 + num2;
+	    } else if (operator == '-') {
+	        result = num1 - num2;
+	    } else if (operator == '*') {
+	        result = num1 * num2;
+	    } else {
+	        result = num1 / num2;
+	    }
+	    // 결과값 numberStack에 push
+	    numberStack.push(result);
+	  }
+
+	  // 결과값 반환
+	  return numberStack.pop();
+	}
+
+</script>
+</body>
+</html>

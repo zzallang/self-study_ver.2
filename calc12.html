@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>계산기12</title>
+<style>
+#container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+}
+
+#container>div {
+	border: 3px solid gray;
+}
+
+#operator {
+	width: 400px;
+	height: 80px;
+	font-size: 30px;
+	text-align: right;
+	padding-right: 8px;
+}
+
+#result, #op {
+	width: 400px;
+	height: 80px;
+	font-size: 60px;
+	font-weight: bold;
+	text-align: right;
+	padding-right: 8px;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+}
+
+.row button {
+	width: 100px;
+	height: 80px;
+	font-size: 20px;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div id="container">
+		<div>
+			<input type="text" id="result" readonly> <br> 
+			<input type="text" id="op" readonly>
+		</div>
+		<div class="row">
+			<button onclick="calcBtn('7')">7</button>
+			<button onclick="calcBtn('8')">8</button>
+			<button onclick="calcBtn('9')">9</button>
+			<button onclick="calcBtn('/')">/</button>
+		</div>
+		<div class="row">
+			<button onclick="calcBtn('4')">4</button>
+			<button onclick="calcBtn('5')">5</button>
+			<button onclick="calcBtn('6')">6</button>
+			<button onclick="calcBtn('*')">*</button>
+		</div>
+		<div class="row">
+			<button onclick="calcBtn('1')">1</button>
+			<button onclick="calcBtn('2')">2</button>
+			<button onclick="calcBtn('3')">3</button>
+			<button onclick="calcBtn('-')">-</button>
+		</div>
+		<div class="row" style="margin-left: 100px;">
+			<button onclick="calcBtn('.')">.</button>
+			<button onclick="calcBtn('0')">0</button>
+			<button onclick="calcBtn('C')">C</button>
+			<button onclick="calcBtn('+')">+</button>
+			<button onclick="calcBtn('=')">=</button>
+		</div>
+	</div>
+	<script>
+	function calcBtn(value) {
+		  const calcArr = [];
+
+		  const addValue = (val) => {
+		    if (val === '.' && calcArr.includes('.')) {
+		      return;
+		    } else if (val === '.') {
+		      if (calcArr.length === 0) calcArr.push('0');
+		    }
+		    calcArr.push(val);
+		  };
+
+		  const clearCalculation = () => {
+		    calcArr.length = 0;
+		    document.getElementById('result').value = '';
+		    document.getElementById('op').value = '';
+		  };
+
+		  const updateDisplay = () => {
+		    document.getElementById('result').value = calcArr.join('');
+		  };
+
+		  const handleOperator = (val) => {
+		    if (isNaN(calcArr[calcArr.length-1])) {
+		      calcArr[calcArr.length-1] = val;
+		    } else {
+		      calcArr.push(val);
+		    }
+		  };
+
+		  const calculate = () => {
+		    const operators = ['+', '-', '*', '/'];
+		    const operatorStack = [];
+		    const numberStack = [];
+		    let numStr = '';
+
+		    calcArr.forEach(item => {
+		      if (operators.includes(item)) {
+		        operatorStack.push(item);
+		        const num = Number(numStr);
+		        numberStack.push(num);
+		        numStr = '';
+		      } else {
+		        numStr += item;
+		      }
+		    });
+
+		    const lastNum = Number(numStr);
+		    numberStack.push(lastNum);
+
+		    while (operatorStack.length > 0) {
+		      const operator = operatorStack.pop();
+		      const num2 = numberStack.pop();
+		      const num1 = numberStack.pop();
+
+		      let result;
+		      if (operator === '+') {
+		        result = num1 + num2;
+		      } else if (operator === '-') {
+		        result = num1 - num2;
+		      } else if (operator === '*') {
+		        result = num1 * num2;
+		      } else if (operator === '/') {
+		        result = num1 / num2;
+		      }
+		      numberStack.push(result);
+		    }
+
+		    return numberStack[0];
+		  };
+
+		  if (!isNaN(value) || value === '.') {
+		    addValue(value);
+		  } else if (value === '=') {
+		    const result = calculate();
+		    calcArr.length = 0;
+		    calcArr.push(result);
+		    document.getElementById('op').value = result;
+		  } else if (value === 'C') {
+		    clearCalculation();
+		  } else {
+		    handleOperator(value);
+		  }
+
+		  updateDisplay();
+		}
+
+	</script>
+</body>
+</html>

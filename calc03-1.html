@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>계산기</title>
+  </head>
+  <body>
+    <div>
+      <input type="text" id="result" readonly>
+    </div>
+    <div>
+      <button onclick="appendNumber('7')">7</button>
+      <button onclick="appendNumber('8')">8</button>
+      <button onclick="appendNumber('9')">9</button>
+      <button onclick="setOperator('+')">+</button>
+    </div>
+    <div>
+      <button onclick="appendNumber('4')">4</button>
+      <button onclick="appendNumber('5')">5</button>
+      <button onclick="appendNumber('6')">6</button>
+      <button onclick="setOperator('-')">-</button>
+    </div>
+    <div>
+      <button onclick="appendNumber('1')">1</button>
+      <button onclick="appendNumber('2')">2</button>
+      <button onclick="appendNumber('3')">3</button>
+      <button onclick="setOperator('*')">*</button>
+    </div>
+    <div>
+      <button onclick="appendNumber('0')">0</button>
+      <button onclick="clearResult()">Clear</button>
+      <button onclick="calculate()">=</button>
+      <button onclick="setOperator('/')">/</button>
+    </div>
+    
+    <script>
+      let currentOperator = null;
+      let firstOperand = null;
+      
+      const resultElement = document.getElementById('result');
+      
+      function appendNumber(number) {
+        if (resultElement.value === '') {
+          resultElement.value = number;
+        } else {
+          resultElement.value += number;
+        }
+      }
+      
+      function setOperator(operator) {
+        currentOperator = operator;
+        firstOperand = Number(resultElement.value);
+        resultElement.value = '';
+      }
+      
+      function clearResult() {
+        currentOperator = null;
+        firstOperand = null;
+        resultElement.value = '';
+      }
+      
+      function calculate() {
+        const secondOperand = Number(resultElement.value);
+        let result = 0;
+        
+        switch(currentOperator) {
+          case '+':
+            result = firstOperand + secondOperand;
+            break;
+          case '-':
+            result = firstOperand - secondOperand;
+            break;
+          case '*':
+            result = firstOperand * secondOperand;
+            break;
+          case '/':
+            result = firstOperand / secondOperand;
+            break;
+        }
+        
+        resultElement.value = result;
+        currentOperator = null;
+        firstOperand = null;
+      }
+    </script>
+  </body>
+</html>
